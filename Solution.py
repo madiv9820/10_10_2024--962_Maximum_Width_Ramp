@@ -2,19 +2,20 @@ from typing import List
 
 class Solution:
     def maxWidthRamp(self, nums: List[int]) -> int:
-        # Initialize the maximum width to 0
-        max_Width = 0
-        n = len(nums)
+        stack = []
+        max_width = 0
+        
+        # Build a stack of indices based on the original array
+        for i in range(len(nums)):
+            if not stack or nums[i] < nums[stack[-1]]:
+                stack.append(i)
 
-        # Iterate through each pair of indices (i, j)
-        for i in range(n - 1):
-            for j in range(i + 1, n):
-                # Check if the current pair satisfies the condition
-                if nums[i] <= nums[j]:
-                    # Update the maximum width if the current width is greater
-                    max_Width = max(max_Width, j - i)
+        # Iterate from the end of the array to find the maximum width
+        for j in range(len(nums) - 1, -1, -1):
+            while stack and nums[j] >= nums[stack[-1]]:
+                max_width = max(max_width, j - stack.pop())
 
-        return max_Width
+        return max_width
 
-# Time Complexity: O(n^2), where n is the length of the input list nums.
-# Space Complexity: O(1), since we are using a fixed amount of extra space.
+# Time Complexity: O(n), where n is the length of the input list.
+# Space Complexity: O(n) in the worst case for the stack.
