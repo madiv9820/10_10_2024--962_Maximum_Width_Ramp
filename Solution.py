@@ -1,3 +1,5 @@
+from typing import List
+
 class Solution:
     def maxWidthRamp(self, nums: List[int]) -> int:
         # Pair each number with its index
